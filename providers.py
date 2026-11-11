@@ -47,6 +47,8 @@ class Provider:
         payload = {'model': self.model, 'messages': messages}
         if schemas:
             payload['tools'] = schemas
+        if self.name == 'openai' and schemas:
+            payload['parallel_tool_calls'] = False
         data = post_json(self.url, {'Authorization': f'Bearer {self.key}'}, payload)
         choice = data['choices'][0]
         message = choice['message']
